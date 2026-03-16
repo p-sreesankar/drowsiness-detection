@@ -137,7 +137,7 @@ Suggestions for model quality, UX, and performance are encouraged.
 
 ## 📄 License
 
-Add a `LICENSE` file (MIT is a common choice).
+This project is licensed under the MIT License. See the LICENSE file for details.
 
 ---
 
