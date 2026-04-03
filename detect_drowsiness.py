@@ -5,7 +5,7 @@ import numpy as np
 import winsound
 import threading
 
-model_path = r'C:\Users\SREESANKAR\Python\drowsiness-detection\face_landmarker.task'
+model_path = r'C:\Users\SREESANKAR\Dev\drowsiness-detection\face_landmarker.task'
 
 #              P1   P2   P3   P4   P5   P6
 

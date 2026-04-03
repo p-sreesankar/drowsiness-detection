@@ -1,150 +1,106 @@
-<p align="center">
-  <img src="https://capsule-render.vercel.app/api?type=waving&height=220&color=0:1f2937,100:2563eb&text=Drowsiness%20Detection%20System&fontColor=ffffff&fontSize=42&fontAlignY=40&desc=Real-time%20Driver%20Fatigue%20Monitoring%20with%20Python&descAlignY=62&animation=fadeIn" alt="header"/>
-</p>
+# Drowsiness Detection System
 
-<p align="center">
-  <a href="#"><img alt="Python" src="https://img.shields.io/badge/Python-3.8%2B-3776AB?logo=python&logoColor=white"></a>
-  <a href="#"><img alt="Platform" src="https://img.shields.io/badge/Platform-Windows-0078D6?logo=windows&logoColor=white"></a>
-  <a href="#"><img alt="Status" src="https://img.shields.io/badge/Status-Active-success"></a>
-  <a href="#"><img alt="OpenCV" src="https://img.shields.io/badge/OpenCV-Computer%20Vision-5C3EE8?logo=opencv&logoColor=white"></a>
-</p>
+Real-time computer vision project that monitors eye aspect ratio (EAR) from webcam input and triggers an alert when sustained eye closure indicates potential driver fatigue.
 
-<p align="center">
-  <b>Stay awake. Stay safe.</b><br/>
-  A professional and practical real-time drowsiness alert system using webcam input and Python.
-</p>
+## Problem Statement
 
----
+Driver drowsiness is a major safety risk, especially during long-distance travel and night driving. Manual monitoring is unreliable, and many low-cost setups lack real-time feedback.
 
-## 🎬 Demo
+## Solution
 
-> Put your GIF at `assets/demo.gif` and GitHub will show it here automatically.
+This project performs live face-landmark inference using MediaPipe, computes EAR per frame, applies threshold-based decision logic, and raises an audible warning when drowsiness persists across consecutive frames.
 
-<p align="center">
-  <img src="assets/demo.gif" alt="Drowsiness Detection Demo" width="920"/>
-</p>
+## Key Features
 
----
+- Real-time webcam pipeline for continuous fatigue monitoring.
+- Face landmark inference with EAR-based eye-state estimation.
+- Consecutive-frame logic to reduce false positives from normal blinking.
+- Visual overlay showing current status and EAR value.
+- Modular structure with separate camera and detection components.
 
-## ✨ Highlights
+## Tech Stack
 
-- 📹 Real-time webcam monitoring  
-- 🧠 Drowsiness detection pipeline  
-- 🔔 Audible startup alert (`winsound`)  
-- 🛡️ Safe shutdown flow with `try/finally`  
-- 🧩 Clean modular design (`Camera` + `DrowsinessDetector`)  
+- Python
+- OpenCV
+- MediaPipe Tasks Vision (Face Landmarker)
+- NumPy
+- Windows audio alert via winsound
 
----
+Relevant ML and deployment keywords for recruiters and ATS:
+- Inference
+- Preprocessing
+- Real-time computer vision
+- Threshold-based classification
+- UI integration (live overlay)
+- TensorFlow and Keras extensibility path
+- MNIST-style benchmarking approach (future evaluation pattern)
 
-## ⚙️ How the current code works
+Note: TensorFlow, Keras, and MNIST are not currently used in runtime code; they are included here as part of a realistic extension and benchmarking direction.
 
-From your `main.py`:
+## Architecture / Workflow
 
-1. Imports:
-   - `DrowsinessDetector` from `detect_drowsiness`
-   - `Camera` from `load_video`
-   - `winsound` for Windows beep
-2. Plays startup beep: `winsound.Beep(1000, 1000)`
-3. Creates `camera` and `detector`
-4. Runs detector loop with `detector.run()`
-5. Always calls `detector.stop()` in `finally`
+1. Capture frame from webcam.
+2. Preprocess frame (BGR to RGB conversion).
+3. Run asynchronous face-landmark inference.
+4. Compute left-eye and right-eye EAR.
+5. Average EAR and compare against drowsiness threshold.
+6. Count consecutive low-EAR frames.
+7. Trigger alert and show status overlay when threshold window is exceeded.
 
----
+## Setup and Quick Start
 
-## 📁 Project Structure
+### Prerequisites
 
-```text
-drowsiness-detection/
-├── main.py
-├── detect_drowsiness.py
-├── load_video.py
-├── assets/
-│   └── demo.gif
-├── .gitignore
-├── requirements.txt
-└── README.md
-```
+- Python 3.10 or newer
+- Webcam
+- Windows OS (current alert implementation uses winsound)
 
----
+### Installation
 
-## 🚀 Quick Start
-
-### 1) Clone
-
-```bash
+```powershell
 git clone https://github.com/<your-username>/drowsiness-detection.git
 cd drowsiness-detection
-```
-
-### 2) Create virtual environment
-
-```powershell
-python -m venv .venv
-.venv\Scripts\activate
-```
-
-### 3) Install dependencies
-
-```powershell
+python -m venv .env
+.\.env\Scripts\Activate.ps1
 pip install -r requirements.txt
 ```
 
-### 4) Run
+### Run
 
 ```powershell
 python main.py
 ```
 
----
+## Usage Steps
 
+1. Start the application with python main.py.
+2. Sit in front of the webcam with adequate lighting.
+3. Watch the live window for EAR and status labels.
+4. Simulate prolonged eye closure to verify alert behavior.
+5. Press q to exit safely.
 
+## Measurable Outcomes
 
----
+- Throughput target: configured around 20 FPS capture/write flow in local runs.
+- Detection responsiveness: near-immediate status update once consecutive low-EAR condition is met.
+- Usability: single-command startup, live on-screen indicator, and audible alert feedback.
 
-## 🧪 Pro Tips
+Current repository version does not include formal benchmark logs or accuracy metrics on a labeled dataset; adding benchmark scripts is listed in ROADMAP.md.
 
-- Use good lighting for better face/eye detection.
-- Keep camera at eye level.
-- If webcam is busy, close other apps using the camera.
+## Resume-Ready Project Highlights
 
----
+- Built a real-time drowsiness detection pipeline using MediaPipe face landmarks, OpenCV, and EAR-based fatigue logic.
+- Implemented asynchronous inference and thresholded consecutive-frame decisioning to distinguish normal blinks from sustained eye closure.
+- Delivered an end-to-end safety-focused prototype with live UI overlay, alert mechanism, and modular Python design for extensibility.
 
-## 🛣️ Roadmap
+## Future Improvements
 
-- [ ] Cross-platform audio alerts (Linux/macOS fallback)
-- [ ] Sensitivity tuning options
-- [ ] Alert log export (CSV/JSON)
-- [ ] On-screen confidence metrics
-- [ ] Packaging + release build
-- [ ] EAR smoothing
-- [ ] FPS-based timing instead of frame counting
-- [ ] Blink duration detection
-- [ ] PERCLOS
-- [ ] Head nodding
-- [ ] Yawning
-- [ ] Continuous alarm loop
-- [ ] Logging fatigue events
-- [ ] GUI dashboard
+- Add calibration mode for user-specific EAR thresholds.
+- Add benchmark suite with precision/recall on labeled fatigue events.
+- Add cross-platform alerting for Linux and macOS.
+- Add lightweight UI layer for settings and sensitivity tuning.
+- Evaluate TensorFlow/Keras-based classifier as an alternative to rule-based detection.
 
----
+## License
 
-## 🤝 Contributing
-
-PRs and issues are welcome.  
-Suggestions for model quality, UX, and performance are encouraged.
-
----
-
-## 📄 License
-
-This project is licensed under the MIT License. See the LICENSE file for details.
-
----
-
-<p align="center">
-  <sub>Built with focus, caffeine, and a mission for safety.</sub>
-</p>
-
-<p align="center">
-  <img src="https://capsule-render.vercel.app/api?type=waving&height=120&section=footer&color=0:2563eb,100:1f2937" alt="footer"/>
-</p>
+MIT License. See LICENSE for details.
